@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="de"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>Mecon OS</title>
+<meta name="theme-color" content="#080e20">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg"><link rel="apple-touch-icon" href="icon-192.png">
+<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="style.css"></head>
+<body><div id="os">
+<div id="wall"></div>
+<div id="status"><span id="st-time">--:--</span><span id="st-r"><span id="st-bat">▮</span><span>Mecon</span></span></div>
+<div id="desk"></div>
+<div id="wins"></div>
+<div id="recents" class="hide"></div>
+<div id="nav"><button id="n-back" aria-label="Zurück">◁</button><button id="n-home" aria-label="Start">○</button><button id="n-rec" aria-label="Apps">▢</button></div>
+<div id="lock"><div id="lk-time">--:--</div><div id="lk-date"></div><div class="hint">Zum Entsperren nach oben wischen / tippen</div></div>
+<div id="install" class="hide"><div class="card"><h2>Mecon OS installieren</h2><p>Installiere Mecon OS als App – im Vollbild, mit eigenen System-Leisten.</p><button id="i-yes" class="btn">Als App installieren</button><button id="i-no" class="btn ghost">Später</button><p class="small" id="i-hint"></p></div></div>
+</div><script src="os.js"></script></body></html>
