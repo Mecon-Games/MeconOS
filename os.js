@@ -11,9 +11,10 @@ function tick(){const d=new Date(),t=d.toLocaleTimeString('de-DE',{hour:'2-digit
 $('#st-time').textContent=t;$('#lk-time').textContent=t;$('#lk-date').textContent=d.toLocaleDateString('de-DE',{weekday:'long',day:'numeric',month:'long'})}
 setInterval(tick,1000);tick();
 if(navigator.getBattery)navigator.getBattery().then(b=>{const u=()=>$('#st-bat').textContent=Math.round(b.level*100)+'%'+(b.charging?'⚡':'');u();b.onlevelchange=b.onchargingchange=u});
-const unlock=()=>$('#lock').classList.add('off');
-$('#lock').addEventListener('click',unlock);let ty;$('#lock').addEventListener('touchstart',e=>ty=e.touches[0].clientY);
-$('#lock').addEventListener('touchend',e=>{if(ty-e.changedTouches[0].clientY>40)unlock()});
+const lk=$('#lock'),unlock=()=>lk.classList.add('off');let ty=null;
+lk.addEventListener('pointerdown',e=>{ty=e.clientY});
+lk.addEventListener('pointerup',e=>{if(ty!==null)unlock();ty=null});
+lk.addEventListener('click',unlock);
 addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' ')unlock()});
 
 /* ---------- Fenster-Manager ---------- */
@@ -37,9 +38,9 @@ function closeWin(id){const w=wins[id];if(!w)return;w.el.remove();w.el.dispatchE
 function home(){Object.values(wins).forEach(x=>x.el.classList.add('min'));$('#recents').classList.add('hide')}
 function dragWin(w,h){let sx,sy,ox,oy,on=0;h.addEventListener('pointerdown',e=>{if(e.target.tagName==='BUTTON')return;on=1;sx=e.clientX;sy=e.clientY;ox=w.offsetLeft;oy=w.offsetTop;h.setPointerCapture(e.pointerId)});
  h.addEventListener('pointermove',e=>{if(on){w.style.left=ox+e.clientX-sx+'px';w.style.top=Math.max(0,oy+e.clientY-sy)+'px'}});h.addEventListener('pointerup',()=>on=0)}
-const top=()=>Object.keys(wins).filter(k=>!wins[k].el.classList.contains('min')).sort((a,b)=>wins[b].el.style.zIndex-wins[a].el.style.zIndex)[0];
+const topWin=()=>Object.keys(wins).filter(k=>!wins[k].el.classList.contains('min')).sort((a,b)=>wins[b].el.style.zIndex-wins[a].el.style.zIndex)[0];
 $('#n-home').onclick=home;
-$('#n-back').onclick=()=>{const t=top();if(t)closeWin(t);else $('#recents').classList.add('hide')};
+$('#n-back').onclick=()=>{const t=topWin();if(t)closeWin(t);else $('#recents').classList.add('hide')};
 $('#n-rec').onclick=()=>{const r=$('#recents');r.innerHTML='';const ks=Object.keys(wins);
  if(!ks.length)r.innerHTML='<p class="small">Keine geöffneten Apps.</p>';
  ks.forEach(k=>{const d=document.createElement('div');d.className='rc';d.innerHTML=`<b>${APPS[k][1]} ${wins[k].name}</b><button class="btn">✕</button>`;
