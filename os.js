@@ -1,5 +1,5 @@
 'use strict';
-const VERSION='1.0.0';
+const VERSION='1.0.1';
 const $=s=>document.querySelector(s),LS=(k,v)=>{try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){}};
 const isDesk=()=>innerWidth>=768;
 let accent=LS('accent')||'#00f0ff';
@@ -87,7 +87,7 @@ const standalone=()=>matchMedia('(display-mode: fullscreen), (display-mode: stan
 async function doInstall(){if(deferred){deferred.prompt();await deferred.userChoice;deferred=null;$('#install').classList.add('hide')}else $('#i-hint').textContent='Browser-Menü (⋮) → „Zum Startbildschirm hinzufügen“ / „App installieren“.'}
 $('#i-yes').onclick=doInstall;$('#i-no').onclick=()=>{LS('noinst','1');$('#install').classList.add('hide')};
 if(!standalone()&&matchMedia('(max-width:767px)').matches&&!LS('noinst')&&!/Chrome/.test(navigator.userAgent))$('#install').classList.remove('hide');
-if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{});
 const newer=(a,b)=>{a=a.replace(/^v/,'').split('.').map(Number);b=b.split('.').map(Number);for(let i=0;i<3;i++){if((a[i]||0)>(b[i]||0))return 1;if((a[i]||0)<(b[i]||0))return 0}return 0};
 function appSettings(b){const repo=LS('repo')||'DEIN-NAME/mecon-os';
  b.innerHTML=`<h3>Design</h3><div id="sws"></div>
